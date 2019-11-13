@@ -28,6 +28,7 @@ module.exports = {
     'linebreak-style': 0,
     'global-require': 0,
     'no-console': ['error', { allow: ['tron'] }],
+    'react/jsx-props-no-spreading': 0,
   },
   settings: {
     'import/resolver': {
