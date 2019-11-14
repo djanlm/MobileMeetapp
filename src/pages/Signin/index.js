@@ -27,7 +27,6 @@ export default function Signin({ navigation }) {
   function handleSubmit() {
     dispatch(signInRequest(email, password));
   }
-  console.tron.log('teste');
 
   return (
     <Background>
