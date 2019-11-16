@@ -6,6 +6,7 @@ import Button from '~/components/Button';
 export const Container = styled.View`
   background-color: #fff;
   border-radius: 4px;
+  margin-bottom: 20px;
 `;
 
 export const Picture = styled(Image)`
