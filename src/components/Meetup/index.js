@@ -1,6 +1,8 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import api from '~/services/api';
 import {
   Container,
   Picture,
@@ -19,6 +21,7 @@ export default function Meetup({
   hostName,
   buttonText,
   imageURL,
+  meetupID,
 }) {
   // because the image address comes with localhost, http://localhost:3332/files/e928783c449ea297d18b5651db6c4eae.jpg, it needs to be replaced by the address our emulator uses
   function formatImageURL(url) {
@@ -36,6 +39,20 @@ export default function Meetup({
       ['2']
     );
     return urlSplitted.join('');
+  }
+
+  async function subscription() {
+    if (buttonText === 'Subscribe') {
+      try {
+        const response = await api.post(`subscriptions/${meetupID}`);
+
+        Alert.alert('Successfully subscribed!');
+      } catch (err) {
+        Alert.alert(
+          'It was not possible to subscribe in this meetup, you already subscribed to a meetup at the same time or this meetup already happened'
+        );
+      }
+    }
   }
 
   return (
@@ -60,7 +77,7 @@ export default function Meetup({
           <Icon name="person" size={15} color="rgba(0,0,0,0.4)" /> Host:{' '}
           {hostName}
         </MeetupHost>
-        <MeetupButton>{buttonText}</MeetupButton>
+        <MeetupButton onPress={subscription}>{buttonText}</MeetupButton>
       </MeetupInfo>
     </Container>
   );
