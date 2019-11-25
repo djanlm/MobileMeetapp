@@ -1,41 +1,28 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  meetup: null,
+  meetups: null,
 };
 export default function meetup(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@meetup/EDIT_MEETUP_REQUEST': {
+      case '@auth/SIGN_IN_SUCCESS': {
+        draft.meetups = action.payload.subscribedMeetups;
         break;
       }
-      case '@meetup/EDIT_MEETUP_SUCCESS': {
-        draft.meetup = action.payload.editMeetup;
-        break;
-      }
-      case '@meetup/DELETE_MEETUP_STATE_REQUEST': {
-        break;
-      }
-      case '@meetup/DELETE_MEETUP_STATE_SUCCESS': {
-        draft.meetup = null;
-        break;
-      }
-      case '@meetup/UPDATE_MEETUP_REQUEST': {
-        break;
-      }
-      case '@meetup/UPDATE_MEETUP_SUCCESS': {
-        draft.meetup = action.payload.updatedMeetup;
+      case '@meetup/FETCH_MEETUPS_SUCCESS': {
+        draft.meetups = action.payload.meetups;
         break;
       }
       case '@meetup/DELETE_MEETUP_REQUEST': {
         break;
       }
       case '@meetup/DELETE_MEETUP_SUCCESS': {
-        draft.meetup = null;
+        draft.meetups = null;
         break;
       }
       case '@auth/SIGN_OUT': {
-        draft.meetup = null;
+        draft.meetups = null;
         break;
       }
       default:

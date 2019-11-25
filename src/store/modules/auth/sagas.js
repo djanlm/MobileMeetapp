@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { format, parseISO } from 'date-fns';
 
 import api from '~/services/api';
 import { signInSuccess, signFailure } from './actions';
@@ -17,7 +18,22 @@ export function* signIn({ payload }) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(signInSuccess(token, user));
+    const response2 = yield call(api.get, 'subscriptions'); // fetchs all my meetups
+    console.tron.log(response2.data);
+    // find the meetup with the same id passed with the payload
+    /* const findMeetup = response.data.find(m => {
+      return String(id) === String(m.id);
+    }); */
+    const pattern = "MMMM dd 'at' HH'h'mm'm'";
+
+    const subscribedMeetups = response2.data.map(meetup => {
+      return {
+        ...meetup,
+        formattedDate: format(parseISO(meetup.Meetup.date), pattern),
+      };
+    });
+
+    yield put(signInSuccess(token, user, subscribedMeetups));
 
     // history.push('/mymeetups');
   } catch (err) {

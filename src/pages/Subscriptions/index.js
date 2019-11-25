@@ -1,36 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { format, parseISO } from 'date-fns';
-
-import api from '~/services/api';
 import Background from '~/components/Background';
 import Header from '~/components/Header';
 import Meetup from '~/components/Meetup';
 import { Container, List } from './styles';
 
 export default function Subscriptions() {
-  const [meetups, setMeetups] = useState([]);
+  // const dispatch = useDispatch();
+  const meetups = useSelector(state => state.meetup.meetups);
 
-  useEffect(() => {
-    async function loadMeetups() {
-      const response = await api.get('subscriptions');
-
-      const pattern = "MMMM dd 'at' HH'h'mm'm'";
-
-      const data = response.data.map(meetup => {
-        return {
-          ...meetup,
-          formattedDate: format(parseISO(meetup.Meetup.date), pattern),
-        };
-      });
-
-      setMeetups(data);
-    }
-
-    loadMeetups();
-  }, []);
-
+  console.tron.log(meetups);
   return (
     <Background>
       <Header />
@@ -46,6 +27,7 @@ export default function Subscriptions() {
               hostName={item.Meetup.user.name}
               buttonText="Cancel subscription"
               imageURL={item.Meetup.banner.url}
+              subscriptionID={item.id}
             />
           )}
         />

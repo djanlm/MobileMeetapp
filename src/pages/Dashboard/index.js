@@ -34,8 +34,6 @@ export default function Dashboard() {
       });
 
       setMeetups(data);
-      console.tron.log(format(new Date(), 'MMMM dd'));
-      // setDashboardDateString(format(dashboardDate, 'MMMM dd'));
     }
 
     loadMeetups();
@@ -101,6 +99,7 @@ export default function Dashboard() {
               buttonText="Subscribe"
               imageURL={item.banner.url}
               meetupID={item.id}
+              past={item.past}
             />
           )}
         />
